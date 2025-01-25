@@ -7,6 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type Todo struct {
+	ID int
+	Completed bool
+	Body string
+}
+
+// CREANDO LA PRIMERA RUTA CON GO, REACT, TALWIND CSS Y TYPESCRIPT
 func main(){
 	fmt.Println("Hello BTS")
 	app := fiber.New()
