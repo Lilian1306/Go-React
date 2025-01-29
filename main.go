@@ -24,6 +24,8 @@ func main(){
 		return c.Status(200).JSON(fiber.Map{"msg": "Hello Word"})
 	})
 
+	// CREANDO LA PRIMERA RUTA EN GO + REACT. 
+
 	app.Post("/api/todos",  func(c "fiber.Ctx") error {
 		todo := &Todo{}  
 
