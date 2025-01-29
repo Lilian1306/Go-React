@@ -20,16 +20,16 @@ func main(){
 	todos := []Todo{}
 
 
+	// To get a TODO
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON(fiber.Map{"msg": "Hello Word"})
 	})
 
-	// CREANDO LA PRIMERA RUTA EN GO + REACT. 
-
-	app.Post("/api/todos",  func(c "fiber.Ctx") error {
+	// To post a TODO
+	app.Post("/api/todos",  func(c *fiber.Ctx) error {
 		todo := &Todo{}  
 
-	   if err := c.BodyParser(todo): err != nil {
+	   if err := c.BodyParser(todo); err != nil {
 		return err
 	   }
 
