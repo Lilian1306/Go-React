@@ -55,7 +55,7 @@ func main(){
 	app.Get("/api/todos", getTodos)
 	app.Post("/api/todos", createTodo)
 	app.Patch("/api/todos/:id", updateTodo)
-	//app.Delete("/api/todos/:id", deleteTodo)
+	app.Delete("/api/todos/:id", deleteTodo)
 
 	port := os.Getenv("PORT")
 	 if port == ""{
@@ -108,7 +108,7 @@ func createTodo(c *fiber.Ctx) error {
 	return c.Status(201).JSON(todo)
 }
 
-
+// Codigo para actualizar el TODO en el proyecto
 func updateTodo(c *fiber.Ctx) error {
 	id := c.Params("id")
 	objectID, err := primitive.ObjectIDFromHex(id)
@@ -127,7 +127,24 @@ func updateTodo(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"success": true})
 }
-//func deleteTodo(c *fiber.Ctx) error {}
+
+// Codigo para eliminar el TODO en el proyecto
+func deleteTodo(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objectID,err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid todo ID"})
+	}
+    
+	filter := bson.M {"_id":objectID}
+	_,err = collection.DeleteOne(context.Background(), filter)
+
+	if err != nil {
+		return err
+	}
+	return c.Status(200).JSON(fiber.Map{"success": true})
+}
 
 
 
