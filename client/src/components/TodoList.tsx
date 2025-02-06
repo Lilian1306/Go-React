@@ -11,7 +11,7 @@ export type Todo = {
 };
 
 const TodoList = () => {
-	const { data: todos, isLoading } = useQuery<Todo[]>({
+	const { data:todos, isLoading } = useQuery<Todo[]>({
 		queryKey: ["todos"],
 		queryFn: async () => {
 			try {
