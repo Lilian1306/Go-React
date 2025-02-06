@@ -12,7 +12,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 
 )
 
@@ -27,10 +26,15 @@ var collection  *mongo.Collection
 func main(){
 	fmt.Println("Hello World")
 
-	err := godotenv.Load(".env")
+	if os.Getenv("ENV") != production {
+		// Load the .env if not in production
+		err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file:", err)
 	}
+		
+	}
+	
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
 	clientOptions := options.Client().ApplyURI(MONGODB_URI)
@@ -53,7 +57,7 @@ func main(){
 
 	app := fiber.New()
 
-	app.Use(cors.New(cors.Config{
+	/*app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:5173",
 		AllowHeaders: "Origin,Content-Type,Accept",
 	}))
@@ -61,11 +65,15 @@ func main(){
 	app.Get("/api/todos", getTodos)
 	app.Post("/api/todos", createTodo)
 	app.Patch("/api/todos/:id", updateTodo)
-	app.Delete("/api/todos/:id", deleteTodo)
+	app.Delete("/api/todos/:id", deleteTodo)*/
 
 	port := os.Getenv("PORT")
 	 if port == ""{
 		port = "5000"
+	 }
+
+	 if os.Getenv("ENV") === "production" {
+		app.Static("/", "./client/dist")
 	 }
 
 	 log.Fatal(app.Listen("0.0.0.0:" + port))
